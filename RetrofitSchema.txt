@@ -1,0 +1,33 @@
+V_1AndroidRetrofitRegisterManualJsonParsing
+
+1 - Create a new empty activity project
+
+2 - Design the user interface
+
+3 - Perform Create Operation (Register Activity)
+
+	A - Create the java objects for the components on the screen
+	B - Create the valifation for the user inputs on the screen
+	C - "Retrofit API" Google it
+	    add the liberary to ur gradle file
+	    add JSON Converter liberary to convert the response when we using retrofit	
+	    "Retrofit JSON converter" google it and make the version like retrofit liberary version
+	D - Internet Permission
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(Step (7) will be in the build.gradle file)
