@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--(26 - B - 1)
+            here we will create our menus
+            we need three for this app
+        (26 - B - 2)
+            we can also give an icon for this menus
+
+            Right-click>drawable>New>Vector Asset ===> Choose from the clip art
+            you will find so many Icons
+        -->
+    <item
+        android:id="@+id/menu_homeID"
+        android:title="@string/home"
+        android:icon="@drawable/ic_home"
+        />
+    <item
+        android:id="@+id/menu_usersID"
+        android:title="@string/users"
+        android:icon="@drawable/ic_users"
+        />
+    <item
+        android:id="@+id/menu_settingsID"
+        android:title="@string/settings"
+        android:icon="@drawable/ic_settings"
+        />
+</menu>

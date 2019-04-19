@@ -7,19 +7,37 @@
     android:layout_height="match_parent"
     tools:context=".activities.ProfileActivity">
 
-
-    <!--(25 - D) simple design for the activity to
-    display welcome message for the user name
-     (Step 25 - E) gor ProfileActivity.java
-     -->
-    <TextView
-        android:id="@+id/welcomuserID"
-        android:layout_centerVertical="true"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+    <!--(26 - C)
+        (Step 27 ) go ro Profile.java
+        in this area we will display out content
+    -->
+    <RelativeLayout
+        android:id="@+id/relativelayoutID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="55dp"/>
 
 
+    <!--                             (26)
+
+    (26 - A)
+    (26 - B ) go to bottom_menu.xml
+    create a bottom navigation view
+                GO AND ADD THE SUPPORT LIBRARY FIRST into ur depenancies
+                com.android.support:design:28.0.0
+
+                also we need a menu file
+                right-click>res>AndroidResourceDirectory>Resource type = menu
+                right-click>New>menu resource file
+    -->
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        app:itemIconTint="#ffffff"
+        app:itemTextColor="@color/colorPrimaryDark"
+        app:menu="@menu/bottom_menu" />
 
 </RelativeLayout>
