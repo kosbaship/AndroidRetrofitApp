@@ -5,7 +5,6 @@ package com.example.AndroidRetrofitApp;
 // Create this API INTERFACE to Define All the API Calls
 // just for defining
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -18,9 +17,12 @@ public interface API {
     // if u have no idea about the response use ResponseBody
     // notation : FormUrlEncoded this required because we sending
     //              a fourm url encoded request
+    //                       (14)
+    // set the call type to DefultResponse
+    // (Step 15)  go to MainActivity.java
     @FormUrlEncoded
     @POST("createuser")
-    Call<ResponseBody> createuser(
+    Call<DefultResponse> createuser(
             // here we will define the fields (Requierd Parameters)
             // that we will send when creating a user
             // to know them send a post request via postman to this endpoint

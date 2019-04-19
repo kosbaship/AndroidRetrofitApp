@@ -39,6 +39,10 @@ public class RetrofitClient {
     // the first thing to be executed after creating an object of this class
     private RetrofitClient(){
         // INITIALIZE the retrofit object
+        //                          (12)
+        // be sure to understand that we add here addConverterFactory
+        // with GsonConverterFactory and this will do the parsing Automaticlly for us
+        // so : go and CREATE Model Class (Step 13) Defultresponse.java
         mRetrofitInstance = new Retrofit
                 .Builder()
                 .baseUrl(BASE_URL)

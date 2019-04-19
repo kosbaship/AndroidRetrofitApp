@@ -1,17 +1,12 @@
 package com.example.AndroidRetrofitApp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -124,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*
         *                       (10)
         *           (Create the call)
-        * (Step (11) Go to androidmanifst file ) for the internet permission
+        * (Step (11) Go to androidmanifist file ) for the internet permission
         * Actual API Call For The User Registration
         *   1- Send the POST HTTP request
         *   2- Register User
@@ -137,68 +132,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         * createuser(email, password, name, school) I pass to this method the data I received from the
         *                                           editText in step (6)
         * */
-        Call<ResponseBody> mCall = RetrofitClient
+        Call<DefultResponse> mCall = RetrofitClient
                 .getmRetrofitClientInstance()
                 .getAPI()
                 .createuser(email, password, name, school);
 
+        ///                         (15)
+        // Modify the Call Type<DefultResponse> Above then use enqueue()
         // enqueue : we need this method to execute the http call
-        mCall.enqueue(new Callback<ResponseBody>() {
+        // write inside new then space then  ctrl space to override the methods
+        mCall.enqueue(new Callback<DefultResponse>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                //(11 - B )
-                String mStringResponse = null;
-
-                // (11 - A ) resiving the response in a string object and to do that
-                // we required to put it inside a try catch block
-                try {
-                    // check if the response code refer to creation or the user already exist
-                    if (response.code() == 201) {
-                        // receive the response to a string'
-                        // and if you have to put it inside try block because u recevied it as a string
-                            mStringResponse = response.body().string();
-                    } else{
-                        mStringResponse = response.errorBody().string();
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                //                              (12)
-                // (12 - A)  parsing the JSON response
-                // we will convert this string MString to a JSON object because what we getting
-                // as a response from the API is a json object starting and ending with curly braces
-                if (mStringResponse != null){
-                    // Convert the string to a json object and pass the string to the
-                    // json object constructor
-                    try {
-                        JSONObject mJSONObject = new JSONObject(mStringResponse);
-                        // we have Two keys in our response meesage
-                        // 1 - error
-                        // 2 - message
-                        // u will define the DAYATYPE for the key based on the value coming ins the
-                        // retrofit response  and pass the key as aparameter
-                        String mStringMessage = mJSONObject.getString("message");
-                        Toast.makeText(MainActivity.this, mStringMessage, Toast.LENGTH_LONG).show();
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
+            public void onResponse(Call<DefultResponse> call, Response<DefultResponse> response) {
+                if (response.code() == 201){
+                    // receiving the JSON response object comming from the API Call
+                    // Auto Parsed and store it inside an Instance of the  Model class
+                    // that I created to know the specific data I need from the parsed object
+                    DefultResponse mDefultResponseInstance = response.body();
+                    String mStringResponseMessage = mDefultResponseInstance.getmMesssageResponse();
+                    Toast.makeText(MainActivity.this, mStringResponseMessage, Toast.LENGTH_LONG).show();
+                } else if (response.code() == 422){
+                    // I Have to Know what this error code means and write the message manually
+                    Toast.makeText(MainActivity.this, "User Already Exist", Toast.LENGTH_LONG).show();
                 }
 
 
             }
-            // this pre defiend method will be call in case any Failure of the execution
+
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                // create a TOAST Message that display the error message catched by the Throwable obj
-                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            public void onFailure(Call<DefultResponse> call, Throwable t) {
+
             }
         });
-
 
     }
 
