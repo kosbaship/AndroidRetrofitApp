@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.AndroidRetrofitApp.R;
 import com.example.AndroidRetrofitApp.api.RetrofitClient;
 import com.example.AndroidRetrofitApp.models.DefultResponse;
+import com.example.AndroidRetrofitApp.storage.SheredPrefManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,7 +55,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.buttonSignUp).setOnClickListener(this);
         findViewById(R.id.textViewLogin).setOnClickListener(this);
     }
-
+    /*
+     * (25 - c)
+     // (step  25 - D) Go to design the activity_profile.xml
+     * // Case Two: ----
+     * Duplicate this code in the main activity beside the login Activity
+     * */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Always when you start the app get an instance of the SPM and check if the user
+        // logged in first to open his profile to him
+        if(SheredPrefManager.getmSheredPrefManagerInstance(this).isLoggedIn()){
+            // we need to close all the existing activities before opining any fresh activity
+            // why I need to close them?
+            // because when the user press back we do not need to show him
+            // the login activity again
+            // to do this I need an Intent
+            Intent mIntentObj = new Intent(this, ProfileActivity.class);
+            // to close all the existing activities we need to do some flags in this Intent
+            mIntentObj.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            // execute the opening
+            startActivity(mIntentObj);
+        }
+    }
     /*
      *                   (6)
      * (Step (7) will be in the build.gradle file)

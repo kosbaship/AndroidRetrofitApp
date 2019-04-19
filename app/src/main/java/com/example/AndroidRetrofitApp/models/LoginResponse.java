@@ -1,5 +1,7 @@
 package com.example.AndroidRetrofitApp.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /*
 *                               (19)
 *   (Step 20)   go to API.java
@@ -27,28 +29,34 @@ public class LoginResponse {
     // if u choose to declare the variable name different from
     // the json object key name you have to put Json Object key name
     // inside SerializedName("") notation and this will matches them for u
-    private boolean error;
-    private String message;
-    private User user;
+    @SerializedName("error")
+    private boolean mErrorResponse;
+    @SerializedName("message")
+    private String mMessageResponse;
+    @SerializedName("user")
+    private User mUserResponse;
 
     // (19 - B) define the constructor
-    public LoginResponse(boolean error, String message, User user) {
-        this.error = error;
-        this.message = message;
-        this.user = user;
+
+    public LoginResponse(boolean mErrorResponse, String mMessageResponse, User mUserResponse) {
+        this.mErrorResponse = mErrorResponse;
+        this.mMessageResponse = mMessageResponse;
+        this.mUserResponse = mUserResponse;
     }
 
 
     // (19 - C) define the Getter Methods
-    public boolean isError() {
-        return error;
+
+
+    public boolean ismErrorResponse() {
+        return mErrorResponse;
     }
 
-    public String getMessage() {
-        return message;
+    public String getmMessageResponse() {
+        return mMessageResponse;
     }
 
-    public User getUser() {
-        return user;
+    public User getmUserResponse() {
+        return mUserResponse;
     }
 }

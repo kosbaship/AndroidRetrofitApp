@@ -1,7 +1,7 @@
 package com.example.AndroidRetrofitApp.api;
 //                  (9)
 //(Step (10) go to main activity)
-// this is not nesessary but it is a very GOOD idea if
+// this is not necessary but it is a very GOOD idea if
 // your application make to much networking request via retrofit
 // what this class will do? or why I need this class
 //          this class (RetrofitClient.java) will initialize an instance of
@@ -51,6 +51,8 @@ public class RetrofitClient {
     }
 
     // (D - after step 9)
+    // the return type will be the same as the class (RetrofitClient) because
+    // we will return an instance of it
     // create a synchronized method to get a singleton instance of
     // our RETROFITCLIENT class
     //synchronized: because we want a single instance only
@@ -60,7 +62,7 @@ public class RetrofitClient {
             // in this case we will create this instance
             mRetrofitClientInstance = new RetrofitClient();
         }
-        // return the instance
+        // return the obj which is instance of this current class
         return mRetrofitClientInstance;
     }
 

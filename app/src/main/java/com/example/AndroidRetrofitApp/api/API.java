@@ -38,7 +38,7 @@ public interface API {
     );
     //                      (20)
     // (Step 21) go to LoginActivity.java
-    // create the userlogin API
+    // create the userLogin API
     //  endpoint : userlogin
     //     Call< HERE u should write the response >
     // if u have no idea about the response use ResponseBody

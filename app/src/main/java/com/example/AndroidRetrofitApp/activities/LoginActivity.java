@@ -3,7 +3,6 @@ package com.example.AndroidRetrofitApp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +11,7 @@ import android.widget.Toast;
 import com.example.AndroidRetrofitApp.R;
 import com.example.AndroidRetrofitApp.api.RetrofitClient;
 import com.example.AndroidRetrofitApp.models.LoginResponse;
+import com.example.AndroidRetrofitApp.storage.SheredPrefManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,15 +30,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //                          (17)
     //   (step 18) go and create User.java  model class
     //  (17 - A) Declare and Create all the edit text on the screen
-    private EditText editTextEmail;
-    private EditText editTextPassword;
+    private EditText editTextEmail, editTextPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Log.v("LoginActivity : ----", "This is OnCreate oooooooooooooooooooooooooooooooooooooooh");
         /*                      (17 - B)
          *  is to initialize and get reference to the views on the screen
          * */
@@ -53,6 +51,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.buttonLogin).setOnClickListener(this);
 
     }
+    /*
+    * (25 - c)
+     // (step  25 - D) Go to design the activity_profile.xml
+    * // Case Two: ----
+    * Duplicate this code in the MainActivity.java beside the login Activity
+    * and GO TO PROFILEACTIVITY.JAVA check if the user is not Logged in
+    * Direct him to the MainActivity.java
+    * */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Always when you start the app get an instance of the SPM and check if the user
+        // logged in first to open his profile to him
+        if(SheredPrefManager.getmSheredPrefManagerInstance(this).isLoggedIn()){
+            // we need to close all the existing activities before opining any fresh activity
+            // why I need to close them?
+            // because when the user press back we do not need to show him
+            // the login activity again
+            // to do this I need an Intent
+            Intent mIntentObj = new Intent(this, ProfileActivity.class);
+            // to close all the existing activities we need to do some flags in this Intent
+            mIntentObj.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            // execute the opening
+            startActivity(mIntentObj);
+        }
+    }
 
     /*
      *                   (17 - F)
@@ -63,8 +87,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      *      3- Doing the Api Registration Call
      * */
     private void userLogin() {
-
-        Log.v("LoginActivity : ----", "This is UserLogin oooooooooooooooooooooooooooooooooooooooh");
         //      (17 - G - 1)- receive the data from the Edit Texts
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
@@ -119,37 +141,62 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //        * userlogin(email, password) I pass to this method the data I received from the
 //
         Call<LoginResponse> mCall = RetrofitClient.getmRetrofitClientInstance().getAPI().userlogin(email, password);
-        // (21 - B)
-        // enqueue : we need this method to execute the http call
-        // write inside new then space then  ctrl space to override the methods
 
         mCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                // (21 - B - 1)
                 // this time we won't get any error code so we will parse the response
                 // user an instance from the LoginResponse
                 // body() will return a LoginResponse
-                LoginResponse mLoginResponseinstanse = response.body();
+                LoginResponse mLoginResponse = response.body();
 
-
+                // (21 - B - 2)
                 // check the variable mErrorResponse inside the login response
                 // has an error or not if is the value false so there is no error
                 // so we will add ! because !false == true or in other word
-                // !mLoginResponse.isError() means if there is no error
+                // !mLoginResponse.ismErrorResponse() means if there is no error
                 // mErrorResponse stores the boolean value that coming from the server
                 // and this why we say above we will not have any error because we only handle
                 // the error false
-                if (!mLoginResponseinstanse.isError()) {
-                    // save user (Shared preferences && Sqlite DB)
-                    // open profile
+                //                          (25)
+                // if the authentication is successful we will save the user
+                if (!mLoginResponse.ismErrorResponse()){
+                    // (25 - A)
+                    // save user (Shared preferences && SQLite DB)
+                    // here we choose Shared preferences
+                    //      .getmSheredPrefManagerInstance(LoginActivity.this)
+                    //          get instance from SPM and pass the activity as context
+                    //      .saveUser()
+                    //          call this method to save the user info inside SP
+                    //      mLoginResponse.getmUserResponse()
+                    //          get the data of the user that you want to save from the
+                    //          response that come from the API
+                    SheredPrefManager.getmSheredPrefManagerInstance(LoginActivity.this)
+                            .saveUser(mLoginResponse.getmUserResponse());
+                    // (25 - B) go to create the Profile Activity
+                    // (25 - C) open profile Activity
+                    // (step  25 - D) Go to design the activity_profile.xml
+                    //  to open the profile activity we have two cases
+                    // 1 - the first time the user login we save his data and open the Profile activity
+                    // 2 - also if the user already login we will open the Profile activity
+                    // Case One: ----
+                    // Case Two: ---- GO TO the @Overrided onStart()
+                    // we need to close all the existing activities before opining any fresh activity
+                    // why I need to close them?
+                    // because when the user press back we do not need to show him
+                    // the login activity again
+                    // to do this I need an Intent
+                    Intent mIntentObj = new Intent(LoginActivity.this, ProfileActivity.class);
+                    // to close all the existing activities we need to do some flags in this Intent
+                    mIntentObj.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    // execute the opening
+                    startActivity(mIntentObj);
 
-                    Toast.makeText(LoginActivity.this, mLoginResponseinstanse.getMessage(), Toast.LENGTH_LONG).show();
-
-                } else{
-
-                    Toast.makeText(LoginActivity.this, mLoginResponseinstanse.getMessage(), Toast.LENGTH_LONG).show();
-
+                } else {
+                    Toast.makeText(LoginActivity.this, mLoginResponse.getmMessageResponse(), Toast.LENGTH_LONG).show();
                 }
+
             }
 
             @Override
@@ -157,6 +204,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             }
         });
+
+
+
+
+
+
+
+
+
+
 
     }
 
@@ -179,6 +236,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.textViewRegister:
                 //                      (23)
+                // (step 24) go and create the storage package
                 // this button for opening up the Main activity
                 startActivity(new Intent(this, MainActivity.class));
                 break;

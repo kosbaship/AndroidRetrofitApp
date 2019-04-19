@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.example.AndroidRetrofitApp.activities.LoginActivity"></activity>
+        <activity android:name="com.example.AndroidRetrofitApp.activities.ProfileActivity"></activity>
+        <activity android:name="com.example.AndroidRetrofitApp.activities.LoginActivity" />
         <activity android:name="com.example.AndroidRetrofitApp.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

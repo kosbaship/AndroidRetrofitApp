@@ -1,6 +1,6 @@
 package com.example.AndroidRetrofitApp.models;
 
-
+import com.google.gson.annotations.SerializedName;
 
 /*
 *                           (18)
@@ -31,33 +31,39 @@ public class User {
     // if u choose to declare the variable name different from
     // the json object key name you have to put Json Object key name
     // inside SerializedName("") notation and this will matches them for u
-    private int id;
-    private String email, name, school;
+    @SerializedName("id")
+    private int mIDUser;
+    @SerializedName("email")
+    private String mEmailUser;
+    @SerializedName("name")
+    private String mNameUser;
+    @SerializedName("school")
+    private String mScholUser;
 
 
     // (18 - B) define the constructor
-    public User(int id, String email, String name, String school) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
-        this.school = school;
+    public User(int mIDUser, String mEmailUser, String mNameUser, String mScholUser) {
+        this.mIDUser = mIDUser;
+        this.mEmailUser = mEmailUser;
+        this.mNameUser = mNameUser;
+        this.mScholUser = mScholUser;
     }
 
 
     // (18 - C) define the Getter Methods
-    public int getId() {
-        return id;
+    public int getmIDUser() {
+        return mIDUser;
     }
 
-    public String getEmail() {
-        return email;
+    public String getmEmailUser() {
+        return mEmailUser;
     }
 
-    public String getName() {
-        return name;
+    public String getmNameUser() {
+        return mNameUser;
     }
 
-    public String getSchool() {
-        return school;
+    public String getmScholUser() {
+        return mScholUser;
     }
 }
