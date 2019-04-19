@@ -1,11 +1,16 @@
-package com.example.AndroidRetrofitApp;
+package com.example.AndroidRetrofitApp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.AndroidRetrofitApp.R;
+import com.example.AndroidRetrofitApp.api.RetrofitClient;
+import com.example.AndroidRetrofitApp.models.DefultResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -97,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // if you want to check confirm password u can use
         // password.equals()
         if (password.length() < 6) {
-            editTextPassword.setError("Password should be atleast 6 character long");
+            editTextPassword.setError("Password should be at least 6 character long");
             editTextPassword.requestFocus();
             // this return to stop the execution
             return;
@@ -137,7 +142,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .getAPI()
                 .createuser(email, password, name, school);
 
-        ///                         (15)
+        //                             (15)
+        // (Step 16 ) go and create the LoginActivity then DESIGN THE LAYOUT.XML FILE
         // Modify the Call Type<DefultResponse> Above then use enqueue()
         // enqueue : we need this method to execute the http call
         // write inside new then space then  ctrl space to override the methods
@@ -145,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<DefultResponse> call, Response<DefultResponse> response) {
                 if (response.code() == 201){
-                    // receiving the JSON response object comming from the API Call
+                    // receiving the JSON response object coming from the API Call
                     // Auto Parsed and store it inside an Instance of the  Model class
                     // that I created to know the specific data I need from the parsed object
                     DefultResponse mDefultResponseInstance = response.body();
@@ -183,7 +189,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 userSignUp();
                 break;
             case R.id.textViewLogin:
+                //                      (22)
+                // (23) go to login activity and modify this same code to swap between the two activities
                 // this button for opening up the login activity
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
         }
     }

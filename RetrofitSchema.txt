@@ -1,8 +1,6 @@
-V_1AndroidRetrofitRegisterManualJsonParsing
-
 1 - Create a new empty activity project
 
-2 - Design the user interface
+2 - Design the user interface (For the user Activity)
 
 3 - Perform Create Operation (Register Activity)
 
@@ -13,21 +11,18 @@ V_1AndroidRetrofitRegisterManualJsonParsing
 	    add JSON Converter liberary to convert the response when we using retrofit	
 	    "Retrofit JSON converter" google it and make the version like retrofit liberary version
 	D - Internet Permission
+	E - Parsing The Response
+		-creating The Model Class
+4 - Create the login activity 
+5 - Organize the files (create package for the activities && and another one for the API related files [activites, api, models])
+6 - (4 - A) - Create the java objects for the components on the screen
+7 - create the User.java model class to store the coming user data inside the response object
+8 - create the response object to detrmine the the error message because you need it to decide how you will display the data for the user in 		the screen inside the enqueue methhod
+9 - Create the userlogin endpoint inside the API.java 
+10 - create the call and parse the response
+	
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-(Step (7) will be in the build.gradle file)

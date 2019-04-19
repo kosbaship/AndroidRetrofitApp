@@ -1,6 +1,6 @@
-package com.example.AndroidRetrofitApp;
+package com.example.AndroidRetrofitApp.api;
 //                  (9)
-//(Sterp (10) go to main activity)
+//(Step (10) go to main activity)
 // this is not nesessary but it is a very GOOD idea if
 // your application make to much networking request via retrofit
 // what this class will do? or why I need this class
