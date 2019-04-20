@@ -1,5 +1,6 @@
 package com.example.AndroidRetrofitApp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.AndroidRetrofitApp.R;
+import com.example.AndroidRetrofitApp.activities.LoginActivity;
+import com.example.AndroidRetrofitApp.activities.ProfileActivity;
 import com.example.AndroidRetrofitApp.api.RetrofitClient;
 import com.example.AndroidRetrofitApp.models.DefultResponse;
 import com.example.AndroidRetrofitApp.models.LoginResponse;
@@ -186,6 +189,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 .getUserFromSharedPref();
 
         //(42 - D)
+        // (Step 43) is here which is the log out
         // make the Call
         // get the
         Call<DefultResponse> mCall = RetrofitClient
@@ -210,6 +214,21 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         });
     }
 
+    // (43 - B)
+    private void logout(){
+        // to do this we need to clear the saved user in our shared prefs
+        SheredPrefManager
+                .getmSheredPrefManagerInstance(getActivity())
+                .clearTheSavedUser();
+        // then open the login activity
+        Intent mIntentObj = new Intent(getActivity(), LoginActivity.class);
+        // to close all the existing activities we need to do some flags in this Intent
+        mIntentObj.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        // execute the opening
+        startActivity(mIntentObj);
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -218,12 +237,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 updateProfile();
                 break;
             case R.id.buttonChangePassword:
-                //                                42
+                //                                (42)
                 // (42 - A - 1)
                 updatePassword();
                 break;
             case R.id.buttonLogout:
-
+                //                              (43)
+                // (43 - A)
+                // logout the the user
+                // and open the login activity again
+                logout();
                 break;
             case R.id.buttonDelete:
 

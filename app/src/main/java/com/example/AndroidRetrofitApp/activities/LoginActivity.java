@@ -126,20 +126,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             // this return to stop the execution
             return;
         }
-//                           (21)
+        //                           (21)
         //  (step 22) go to MainActivity.java
-//         (21 - A)
-//         (Create the call)
-//         1- Send the POST HTTP request
-//         2 - Register User
-//
-//        * getmRetrofitClientInstance : this is an object from the retrofit class
-//        *                              and we use it to make the call
-//        * getAPI :                     this interface has the basic definition the the endpoint
-//        *                              and the required parameters the api allow or need
-//          userlogin :                 this is the endpoint attached to the retrofit2.http.POST Request
-//        * userlogin(email, password) I pass to this method the data I received from the
-//
+        //         (21 - A)
+        //         (Create the call)
+        //         1- Send the POST HTTP request
+        //         2 - Register User
+        //
+        //        * getmRetrofitClientInstance : this is an object from the retrofit class
+        //        *                              and we use it to make the call
+        //        * getAPI :                     this interface has the basic definition the the endpoint
+        //                                        and the required parameters the api allow or need
+        //          userlogin :                 this is the endpoint attached to the retrofit2.http.POST Request
+        //        * userlogin(email, password) I pass to this method the data I received from the
+//\\
         Call<LoginResponse> mCall = RetrofitClient.getmRetrofitClientInstance().getAPI().userlogin(email, password);
 
         mCall.enqueue(new Callback<LoginResponse>() {
