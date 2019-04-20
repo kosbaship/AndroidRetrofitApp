@@ -3,9 +3,25 @@
 //              (29)
 // we created this fragment
 // (Step 30) go to ProfileActivity.java-->
+<!--//                          (33)
+    create  the users fragment DESIGN
+    we wil user recyclerView so we have to
+    (33 - A)
+    add the dependantesies for (recycler && card View)
+    (33 - B) Go and create the recyclerView listItem layout
+-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!--
+                        (36)
+    =   define the recyclerView
+    // (37) GO to UsersFragment
+    -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerviewID"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

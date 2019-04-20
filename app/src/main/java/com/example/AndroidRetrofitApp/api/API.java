@@ -7,10 +7,12 @@ package com.example.AndroidRetrofitApp.api;
 
 import com.example.AndroidRetrofitApp.models.DefultResponse;
 import com.example.AndroidRetrofitApp.models.LoginResponse;
+import com.example.AndroidRetrofitApp.models.UsersResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface API {
@@ -55,4 +57,15 @@ public interface API {
             @Field("password") String password
     );
 
+
+    //                      (35)
+    // (36) got users_fragment.xml and define the recyclerView
+    //(35 - B) GO TO models and create user response
+    //(35 - A)
+    // define a get request to get all the user rom the API
+    //(35 - C)
+    // define response type which is UsersResponse
+    // this time we do not need to pass any parameters
+    @GET("allusers")
+    Call<UsersResponse> getAllUsers();
 }

@@ -20,9 +20,6 @@ import com.example.AndroidRetrofitApp.storage.SheredPrefManager;
 // make sure to extends this android.support.v4.app
 public class HomeFragment extends Fragment {
 
-    //(32 - B) declare the views that on the screen variables
-    private TextView textViewEmail, textViewName, textViewSchool;
-
     //  (28 - Home - A)
     // override the method onCreateView()
     @Nullable
@@ -38,18 +35,20 @@ public class HomeFragment extends Fragment {
     }
 
     //                                      (32)
+    //(step 33) go fragment_users.xml
     //(32 - A)
     // we need to override onViewCreated()
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //(32 - C) declare the views that on the screen variables
-        // we will get the text views using this view object
-        textViewEmail = view.findViewById(R.id.textViewEmail);
-        textViewName = view.findViewById(R.id.textViewName);
-        textViewSchool = view.findViewById(R.id.textViewSchool);
 
-        //(32 - D) time to get the data of the user from his shared preferences
+        //(32 - B) declare the views that on the screen variables
+        // we will get the text views using this view object
+        TextView textViewEmail = view.findViewById(R.id.textViewEmail);
+        TextView textViewName = view.findViewById(R.id.textViewName);
+        TextView textViewSchool = view.findViewById(R.id.textViewSchool);
+
+        //(32 - C) time to get the data of the user from his shared preferences
         //   getActivity()
         //          we use this method to get that context because we need a context for the
         //          the method will return back to us an instance of the shared pref

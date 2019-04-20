@@ -6,4 +6,6 @@
     <string name="email">Email</string>
     <string name="name">Name</string>
     <string name="school">School</string>
+    <string name="kosba">Kosba</string>
+    <string name="mailexammple">Kosba@example.com</string>
 </resources>

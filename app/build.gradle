@@ -20,6 +20,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //                  this version SHOULD match scroll down
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
@@ -30,5 +31,13 @@ dependencies {
     //    (Step (8) will be in the API.java file)
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    //    (26 - B ) go to bottom_menu.xml
+    //    create a bottom navigation view
+    //    GO AND ADD THE SUPPORT LIBRARY FIRST into ur depenancies
+    //    com.android.support:design:28.0.0
     implementation 'com.android.support:design:28.0.0'
+    //    (33 - A) first thing in this step to import these two support libraries
+    //                  this version SHOULD match THOSE
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
 }
