@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.AndroidRetrofitApp.R;
 import com.example.AndroidRetrofitApp.api.RetrofitClient;
+import com.example.AndroidRetrofitApp.models.DefultResponse;
 import com.example.AndroidRetrofitApp.models.LoginResponse;
 import com.example.AndroidRetrofitApp.models.User;
 import com.example.AndroidRetrofitApp.storage.SheredPrefManager;
@@ -68,7 +69,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         view.findViewById(R.id.buttonLogout).setOnClickListener(this);
         view.findViewById(R.id.buttonDelete).setOnClickListener(this);
     }
-    // (39 - D)
+    // (39 - D -2)
     //create this method to update the user
     private void updateProfile(){
         // (39 - D - 1)
@@ -151,15 +152,75 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         });
 
     }
+    // (42 - A - 2)
+    // (step 42 - B) Go to API.java
+    private void updatePassword(){
+        //(42 - C)
+        //        receive the data from the Edit Texts
+        //        and do the validation
+        String currentpassword = mEditTextChangeCurrentPassword.getText().toString().trim();
+        String newpassword = mEditTextChangeNewPassword.getText().toString().trim();
+
+        if (currentpassword.isEmpty()) {
+            mEditTextChangeCurrentPassword.setError("Password required");
+            mEditTextChangeCurrentPassword.requestFocus();
+            // this return to stop the execution
+            return;
+        }
+        if (newpassword.isEmpty()) {
+            mEditTextChangeNewPassword.setError("Enter New Password");
+            mEditTextChangeNewPassword.requestFocus();
+            // this return to stop the execution
+            return;
+        }
+
+
+        // when we update the password we need to pass
+        //      1 - Current Password
+        //      2 - New Password
+        //      3 - User Email
+        // to our api
+        // get the current user that are stored in the Shared Prefs
+        User mCurrentUser = SheredPrefManager
+                .getmSheredPrefManagerInstance(getActivity())
+                .getUserFromSharedPref();
+
+        //(42 - D)
+        // make the Call
+        // get the
+        Call<DefultResponse> mCall = RetrofitClient
+                .getmRetrofitClientInstance()
+                .getAPI()
+                .updatePassword(
+                        currentpassword,
+                        newpassword,
+                        mCurrentUser.getmEmailUser()
+                );
+        mCall.enqueue(new Callback<DefultResponse>() {
+            @Override
+            public void onResponse(Call<DefultResponse> call, Response<DefultResponse> response) {
+                // display a toast with the coming message
+                Toast.makeText(getActivity(), response.body().getmMesssageResponse(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<DefultResponse> call, Throwable t) {
+
+            }
+        });
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonSave:
+                // (39 - D -1)
                 updateProfile();
                 break;
             case R.id.buttonChangePassword:
-
+                //                                42
+                // (42 - A - 1)
+                updatePassword();
                 break;
             case R.id.buttonLogout:
 

@@ -76,7 +76,7 @@ public interface API {
     //                  (40)
     // (Step 41) go to SettingsFragment.java
     // Create a PUT request.
-    //  endpoint : userlogin
+    //  endpoint : updateuser/{id}
     // response type : it's like login Response {error, message, users}
     @FormUrlEncoded
     @PUT("updateuser/{id}")
@@ -89,6 +89,22 @@ public interface API {
             @Field("name") String name,
             @Field("school") String school
     );
+
+
+    //              (42 - B)
+    // (42 - C) Go to SettingsFragment.java
+    // create the Update password Api
+    // Create a PUT request.
+    //  endpoint : updatepassword
+    @FormUrlEncoded
+    @PUT("updatepassword")
+    Call<DefultResponse> updatePassword(
+            @Field("currentpassword") String currentpassword,
+            @Field("newpassword") String newpassword,
+            @Field("email") String email
+            );
+
+
 
 
 }
