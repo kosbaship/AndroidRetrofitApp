@@ -4,11 +4,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.AndroidRetrofitApp.R;
+import com.example.AndroidRetrofitApp.api.RetrofitClient;
+import com.example.AndroidRetrofitApp.models.LoginResponse;
+import com.example.AndroidRetrofitApp.models.User;
+import com.example.AndroidRetrofitApp.storage.SheredPrefManager;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+// (39 - C) implement the click listener and override the needed methods
 
 //              (28)
 // (Step 29) go and create the 3 xml fragment files New>layout resource file
@@ -16,7 +29,13 @@ import com.example.AndroidRetrofitApp.R;
 //  (28 - settings - A)
 // to make this class a fragment we need to extends Fragment
 // make sure to extends this android.support.v4.app
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment implements View.OnClickListener{
+    //                      (39)
+    // (Step 40) Go to API.java
+    // (39 - A) define the view object
+    private EditText mEditTextChangeEmail, mEditTextChangeName, mEditTextChangeSchool;
+    private EditText mEditTextChangeCurrentPassword, mEditTextChangeNewPassword;
+
 
     //  (28 - settings - A)
     // override the method onCreateView()
@@ -30,5 +49,125 @@ public class SettingsFragment extends Fragment {
         // the root that we will draw into
         //false for attach to root
         return inflater.inflate(R.layout.fragment_settings, container, false);
+    }
+    // (39 - B) Initialize the EditText
+    // to do this we need to override onViewCreated
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //initialize all the EditText
+        mEditTextChangeEmail = view.findViewById(R.id.editTextEmail);
+        mEditTextChangeName = view.findViewById(R.id.editTextName);
+        mEditTextChangeSchool = view.findViewById(R.id.editTextSchool);
+        mEditTextChangeCurrentPassword = view.findViewById(R.id.editTextCurrentPassword);
+        mEditTextChangeNewPassword = view.findViewById(R.id.editTextNewPassword);
+
+        //add click listeners to the buttons
+        view.findViewById(R.id.buttonSave).setOnClickListener(this);
+        view.findViewById(R.id.buttonChangePassword).setOnClickListener(this);
+        view.findViewById(R.id.buttonLogout).setOnClickListener(this);
+        view.findViewById(R.id.buttonDelete).setOnClickListener(this);
+    }
+    // (39 - D)
+    //create this method to update the user
+    private void updateProfile(){
+        // (39 - D - 1)
+        // Add validation
+        // receive the data from the Edit Texts in the fragment that build for  update
+        String email = mEditTextChangeEmail.getText().toString().trim();
+        String name = mEditTextChangeName.getText().toString().trim();
+        String school = mEditTextChangeSchool.getText().toString().trim();
+
+        //implement my constrains on it like password length (Check Validation)
+        //email.isEmpty()  check if it's empty
+        if (email.isEmpty()) {
+            mEditTextChangeEmail.setError("Email is required");
+            // direct the focus to the field in the run time
+            mEditTextChangeEmail.requestFocus();
+            return;
+        }
+        // !Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        // check for the email form mane@example.com
+        // this line (Patterns.EMAIL_ADDRESS.matcher(email).matches()) means
+        // if the email matshes that pattren so we have to write not (!)
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            mEditTextChangeEmail.setError("Enter a valid email");
+            mEditTextChangeEmail.requestFocus();
+            // this return to stop the execution
+            return;
+        }
+
+        if (name.isEmpty()) {
+            mEditTextChangeName.setError("Name required");
+            mEditTextChangeName.requestFocus();
+            // this return to stop the execution
+            return;
+        }
+
+        if (school.isEmpty()) {
+            mEditTextChangeSchool.setError("School required");
+            mEditTextChangeSchool.requestFocus();
+            // this return to stop the execution
+            return;
+        }
+
+        //                              (41)
+        // (41 - A)
+        // get the existing user from the SharedPreferences Manager
+        // to get the Current User ID From it
+        User mExistingUser = SheredPrefManager
+                .getmSheredPrefManagerInstance(getActivity())
+                .getUserFromSharedPref();
+
+        Call<LoginResponse> mCall = RetrofitClient
+                .getmRetrofitClientInstance()
+                .getAPI()
+                .updateUser(mExistingUser.getmIDUser(),
+                        email,
+                        name,
+                        school);
+        // (41 - B)
+        mCall.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                // Display the message that comes in our response
+                Toast.makeText(getActivity(), response.body().getmMessageResponse(), Toast.LENGTH_LONG).show();
+                //    UPDATE THE USER THAT IN OUR SHAERD PREF
+                // if there is no error so we will updated the user that saved in shared prefs
+                if (!response.body().ismErrorResponse()){
+                    //get the user that coming in the response
+                    // with getmUserResponse()
+                    // and store it inside the shared prefs
+                    SheredPrefManager
+                            .getmSheredPrefManagerInstance(getActivity())
+                            .saveUser(response.body().getmUserResponse());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonSave:
+                updateProfile();
+                break;
+            case R.id.buttonChangePassword:
+
+                break;
+            case R.id.buttonLogout:
+
+                break;
+            case R.id.buttonDelete:
+
+                break;
+
+        }
     }
 }

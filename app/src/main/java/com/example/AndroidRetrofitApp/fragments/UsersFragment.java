@@ -32,6 +32,7 @@ public class UsersFragment extends Fragment {
 
 
     //                      (37)
+    // (Step 38) Go fragment_settings.xml
     //(37 - A)
     // Define our RecyclerView
     private RecyclerView mRecyclerView;

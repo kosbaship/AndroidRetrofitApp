@@ -14,6 +14,8 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface API {
     // (A - After Step 8)
@@ -63,9 +65,30 @@ public interface API {
     //(35 - B) GO TO models and create user response
     //(35 - A)
     // define a get request to get all the user rom the API
+    //  endpoint : allusers
     //(35 - C)
     // define response type which is UsersResponse
     // this time we do not need to pass any parameters
     @GET("allusers")
     Call<UsersResponse> getAllUsers();
+
+
+    //                  (40)
+    // (Step 41) go to SettingsFragment.java
+    // Create a PUT request.
+    //  endpoint : userlogin
+    // response type : it's like login Response {error, message, users}
+    @FormUrlEncoded
+    @PUT("updateuser/{id}")
+    Call<LoginResponse> updateUser(
+            // we uses @Path because this is a parameter of the url
+            @Path("id") int id,
+            // the rest is the date will be saved in the database for a particular user
+            //and the id is for where clause
+            @Field("email") String email,
+            @Field("name") String name,
+            @Field("school") String school
+    );
+
+
 }
