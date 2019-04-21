@@ -1,5 +1,7 @@
 package com.example.AndroidRetrofitApp.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -227,6 +229,65 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         // execute the opening
         startActivity(mIntentObj);
     }
+    // (44 - B)
+    // (Step 44 -B - 2 ) Go to API.java
+    // create the method Delete user
+    private void deleteUser(){
+        // (44 - B - 1)
+        //create an alert dialog to take a confirmation from the user to be sure of
+        // that he want to delete his acc not by mistake
+        AlertDialog.Builder mBuildAlert = new AlertDialog.Builder(getActivity());
+        mBuildAlert.setTitle("Are You Sure ?!");
+        mBuildAlert.setMessage("This Action is irreversible...");
+        mBuildAlert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // (44 - B - 3)
+                //if the user selects yes delete the user
+                // to do this we need to clear the saved user in our shared prefs
+
+                // first get the user ID from SHared Prefs
+                int usertIDFromSharedPref = SheredPrefManager
+                        .getmSheredPrefManagerInstance(getActivity())
+                        .getUserFromSharedPref()
+                        .getmIDUser();
+
+                // Perform the delete user call
+                Call<DefultResponse> mCall = RetrofitClient
+                        .getmRetrofitClientInstance()
+                        .getAPI()
+                        .deleteUser(usertIDFromSharedPref);
+
+                // delete the user from the shared prefs
+                mCall.enqueue(new Callback<DefultResponse>() {
+                    @Override
+                    public void onResponse(Call<DefultResponse> call, Response<DefultResponse> response) {
+                        // if there is NO error in the process of deleting user (user deleted successfully)
+                        // logout
+                        if (!response.body().ismErrorResponse()){
+                            logout();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<DefultResponse> call, Throwable t) {
+//                        Toast.makeText(getActivity(), response.body().getmMesssageResponse(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+        mBuildAlert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        // create the alert dialog
+        AlertDialog mAD = mBuildAlert.create();
+        // show the alert dialog
+        mAD.show();
+
+    }
 
 
     @Override
@@ -249,7 +310,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 logout();
                 break;
             case R.id.buttonDelete:
-
+                //                              (44)
+                // (44 - A)
+                // Delete the current user
+                deleteUser();
                 break;
 
         }

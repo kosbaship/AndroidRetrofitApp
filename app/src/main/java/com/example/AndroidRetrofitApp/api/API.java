@@ -10,6 +10,7 @@ import com.example.AndroidRetrofitApp.models.LoginResponse;
 import com.example.AndroidRetrofitApp.models.UsersResponse;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -93,7 +94,7 @@ public interface API {
 
     //              (42 - B)
     // (42 - C) Go to SettingsFragment.java
-    // create the Update password Api
+    // define the Update password Api call
     // Create a PUT request.
     //  endpoint : updatepassword
     @FormUrlEncoded
@@ -105,6 +106,15 @@ public interface API {
             );
 
 
-
+    //              (44 - B - 2)
+    // (44 - B - 3) Go to SettingsFragment.java
+    // define the delete user Api call
+    // Create a DELETE request.
+    //  endpoint : deleteuser
+    @DELETE("deleteuser/{id}")
+    Call<DefultResponse> deleteUser(
+            // we uses @Path because this is a parameter of the url
+            @Path("id") int id
+    );
 
 }
