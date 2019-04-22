@@ -311,6 +311,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.buttonDelete:
                 //                              (44)
+                //  (Step 45 ) go to RetrofitClient.java
                 // (44 - A)
                 // Delete the current user
                 deleteUser();
